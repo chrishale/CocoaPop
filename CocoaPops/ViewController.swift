@@ -63,8 +63,7 @@ class ViewController: CocoaPopUIViewController {
     func toggleSearch() {
         if let searchOpen: Bool = CocoaPop.shared.getState("search.open") {
             CocoaPop.shared.setState([
-                "search.open": !searchOpen,
-                "search.helpLabel": !searchOpen ? "You are searching" : nil
+                "search.open": !searchOpen
             ])
         }
     }
