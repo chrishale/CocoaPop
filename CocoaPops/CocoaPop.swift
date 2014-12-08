@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Strobe. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 @objc class CocoaPopState: SequenceType {
@@ -84,6 +83,10 @@ class CocoaPop {
     class var shared: CocoaPop {
         return Singleton.shared
     }
+
+    func touch() {
+        NSNotificationCenter.defaultCenter().postNotificationName("CocoaPop.stateDidUpdate", object: CocoaPopState(dictionary: CocoaPop.shared.state.map))
+    }
     
     func setState(state newState: CocoaPopState) {
         var existingState: CocoaPopState = CocoaPopState(dictionary: self.state.map)
@@ -121,9 +124,13 @@ class CocoaPop {
 extension UILabel {
     func cp_listenForText(key: String, withString: () -> String) {
         NSNotificationCenter.defaultCenter().addObserverForName("CocoaPop.stateDidUpdate", object: nil, queue: nil, usingBlock: {
-                (notification: NSNotification!) in
-                self.text = withString()
+            (notification: NSNotification!) in
+            self.text = withString()
         })
-        NSNotificationCenter.defaultCenter().postNotificationName("CocoaPop.stateDidUpdate", object: CocoaPopState(dictionary: CocoaPop.shared.state.map))
+        self.text = withString()
     }
+}
+
+extension UIView {
+
 }

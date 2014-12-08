@@ -38,15 +38,15 @@ class ViewController: CocoaPopUIViewController {
     
     override func getInitialState() -> CocoaPopState {
         return CocoaPopState(dictionary: [
-            "search.open": false,
-            "search.helpLabel": "the search is open"
+            "search.open": false
         ])
     }
     
     override func stateDidUpdate(prevState: CocoaPopState) {
-        let searchOpen: Bool = CocoaPop.shared.getState("search.open")!
-        self.searchBar.hidden = !searchOpen
-        self.searchOpenBtn.setTitle(searchOpen ? "You are searching" : "Start search", forState: UIControlState.Normal)
+        if let searchOpen: Bool = CocoaPop.shared.getState("search.open") {
+            self.searchBar.hidden = !searchOpen
+            self.searchOpenBtn.setTitle(searchOpen ? "You are searching" : "Start search", forState: UIControlState.Normal)
+        }
     }
 
     override func viewDidLoad() {
