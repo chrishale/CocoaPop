@@ -12,6 +12,8 @@
 		83AC266B1A321D7C00738F04 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83AC266A1A321D7C00738F04 /* Images.xcassets */; };
 		83AC267A1A321D7C00738F04 /* CocoaPopsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AC26791A321D7C00738F04 /* CocoaPopsTests.swift */; };
 		83AC26861A321FFD00738F04 /* CocoaPop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AC26851A321FFD00738F04 /* CocoaPop.swift */; };
+		83F29C851A3635DB00BC5188 /* Component.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F29C841A3635DB00BC5188 /* Component.swift */; };
+		83F29C871A37437800BC5188 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F29C861A37437800BC5188 /* App.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,8 @@
 		83AC26781A321D7C00738F04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83AC26791A321D7C00738F04 /* CocoaPopsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocoaPopsTests.swift; sourceTree = "<group>"; };
 		83AC26851A321FFD00738F04 /* CocoaPop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CocoaPop.swift; sourceTree = "<group>"; };
+		83F29C841A3635DB00BC5188 /* Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Component.swift; sourceTree = "<group>"; };
+		83F29C861A37437800BC5188 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,7 @@
 		83AC26551A321D7C00738F04 = {
 			isa = PBXGroup;
 			children = (
+				83F29C861A37437800BC5188 /* App.swift */,
 				83AC26601A321D7C00738F04 /* CocoaPops */,
 				83AC26761A321D7C00738F04 /* CocoaPopsTests */,
 				83AC265F1A321D7C00738F04 /* Products */,
@@ -80,6 +85,7 @@
 				83AC266A1A321D7C00738F04 /* Images.xcassets */,
 				83AC26611A321D7C00738F04 /* Supporting Files */,
 				83AC26851A321FFD00738F04 /* CocoaPop.swift */,
+				83F29C841A3635DB00BC5188 /* Component.swift */,
 			);
 			path = CocoaPops;
 			sourceTree = "<group>";
@@ -208,7 +214,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				83AC26661A321D7C00738F04 /* ViewController.swift in Sources */,
+				83F29C851A3635DB00BC5188 /* Component.swift in Sources */,
 				83AC26861A321FFD00738F04 /* CocoaPop.swift in Sources */,
+				83F29C871A37437800BC5188 /* App.swift in Sources */,
 				83AC26641A321D7C00738F04 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,6 +390,7 @@
 				83AC267F1A321D7C00738F04 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		83AC26801A321D7C00738F04 /* Build configuration list for PBXNativeTarget "CocoaPopsTests" */ = {
 			isa = XCConfigurationList;
@@ -390,6 +399,7 @@
 				83AC26821A321D7C00738F04 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
