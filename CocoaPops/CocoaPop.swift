@@ -8,49 +8,105 @@
 
 import UIKit
 
-@objc protocol CocoaPopStateDelegate {
-    func getInitialState() -> PropDict
-    func componentDidUpdate(prevState: PropDict)
-    func componentWillUpdate(nextState: PropDict)
+typealias PropDict = Dictionary<NSObject, AnyObject>
+typealias ClosureReturnsComponents = (() -> [UIView])
+let ALLOWED_VIEW_PROPS: [NSObject] = ["frame", "view", "alpha", "hidden", "backgroundColor", "text"]
+
+extension UIView {
+    convenience init(props: PropDict) {
+        self.init()
+        self.setProps(props)
+    }
+    
+    convenience init(props: PropDict, children: ClosureReturnsComponents) {
+        self.init(props: props)
+        for child in children() {
+            self.addSubview(child)
+        }
+    }
+    
+    convenience init(children: ClosureReturnsComponents) {
+        self.init()
+        for child in children() {
+            self.addSubview(child)
+        }
+    }
+    
+    func setProps(props: PropDict) {
+        var filteredProps = props.keys.filter { contains(ALLOWED_VIEW_PROPS, $0) }.map { (key: $0, value: props[$0]) }
+        for prop in filteredProps {
+            self.setValue(prop.value!, forKey: prop.key as String)
+        }
+    }
 }
 
-class CocoaPopUIViewController: UIViewController, CocoaPopStateDelegate {
-    
-    var root: Component?
-    
+class ReactiveStateViewController: UIViewController {
+
+    var props: PropDict = [:]
     var state: PropDict = [:] {
-        willSet {
-            self.componentWillUpdate(newValue)
-        }
+        willSet { self.componentWillUpdate(newValue) }
         didSet {
             self.componentDidUpdate(oldValue)
         }
     }
-    
-    func setState(state: PropDict) {
-        var newState: PropDict = self.state
-        for (k,v) in state {
-            newState.updateValue(v, forKey: k)
-        }
-        self.state = newState
-    }
-    
+
     func getInitialState() -> PropDict { return [:] }
-    func componentDidUpdate(prevState: PropDict) {
-        println(render().render())
+    func getDefaultProps() -> PropDict { return [:] }
+
+    func componentWillUpdate(newState: PropDict) { }
+    func componentDidUpdate(oldState: PropDict) { }
+    
+    func setState(newState: PropDict) {
+        var oldState: PropDict = self.state
+        for (key, value) in newState {
+            oldState[key] = value
+        }
+        self.state = oldState
     }
-    func componentWillUpdate(nextState: PropDict) { }
+    
+    func render() -> UIView { return UIView(frame: self.view.bounds) }
     
     override func loadView() {
         super.loadView()
+        self.props = self.getDefaultProps()
         self.state = self.getInitialState()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view = render().render()
-    }
         
-    func render() -> Component { return c("UIView") }
+        self.view.setProps(self.props)
+        
+        self.view.addSubview(self.render())
+    }
     
+    func diffAgainstRender() {
+        
+    }
 }
+
+
+//// check if subview is available
+//if let availableViews: [UIView] = rootNode.subviews.filter({ (subview: AnyObject) in
+//    return subview.isKindOfClass(NSClassFromString(component.type))
+//}) as? [UIView] {
+//    
+//    var exactView: UIView? = availableViews.filter({ $0.tag == index }).first
+//    
+//    var componentView: UIView
+//    
+//    if exactView == nil {
+//        let typeClass = NSClassFromString(component.type) as? UIView.Type
+//        componentView = typeClass!()
+//        rootNode.addSubview(componentView)
+//    } else {
+//        componentView = exactView!
+//    }
+//    
+//    componentView.tag = index
+//    
+//    var filteredProps = component.props.keys.filter { contains(ALLOWED_VIEW_PROPS, $0) }.map { (key: $0, value: component.props[$0]) }
+//    for prop in filteredProps {
+//        componentView.setValue(prop.value!, forKey: prop.key as String)
+//    }
+//    
+//    // recursivley render
+//    component.fetchObjectModel(componentView).render()
+//    
+//}
