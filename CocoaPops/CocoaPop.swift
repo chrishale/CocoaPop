@@ -7,22 +7,68 @@
 //
 
 import UIKit
+import Dollar
+import Cartography
 
-typealias PropDict = Dictionary<NSObject, AnyObject>
+typealias PropDict = Dictionary<String, AnyObject>
+typealias StateDict = Dictionary<String, AnyObject>
 typealias ClosureReturnsComponents = (() -> [UIView])
-let ALLOWED_VIEW_PROPS: [NSObject] = ["frame", "view", "alpha", "hidden", "backgroundColor", "text"]
+typealias FrameTuple = (x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat)
+class ClosureDispatch {
+    let action: ()->Void
+    init(f:()->Void) { self.action = f }
+}
+
+enum DataType {
+    case AsString(String)
+    case AsInt(Int)
+    case AsBool(Bool)
+}
+
+private var associationKey: UInt8 = 0
+
+extension Array {
+    func map<T>(transform: ((element: T, index: Int) -> UIView)) -> [UIView] {
+        var result: [UIView] = []
+        for (index, element) in enumerate(self) {
+            let castedElement = element as T
+            result.append(transform(element: castedElement, index: index))
+        }
+        return result
+    }
+}
 
 extension UIView {
+    
+    var key: String! {
+        get {
+            return objc_getAssociatedObject(self, &associationKey) as? String
+        }
+        set(newValue) {
+            objc_setAssociatedObject(self, &associationKey, newValue, objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN))
+        }
+    }
+    
+    private struct StoredProps {
+        static var allowedProps: [String] = ["frame", "alpha", "hidden", "backgroundColor"]
+    }
+    
+    class var allowedProps: [String] {
+        get { return StoredProps.allowedProps }
+        set { StoredProps.allowedProps = $.union(StoredProps.allowedProps, newValue) }
+    }
+    
     convenience init(props: PropDict) {
         self.init()
         self.setProps(props)
     }
     
     convenience init(props: PropDict, children: ClosureReturnsComponents) {
-        self.init(props: props)
+        self.init()
         for child in children() {
             self.addSubview(child)
         }
+        self.setProps(props)
     }
     
     convenience init(children: ClosureReturnsComponents) {
@@ -32,81 +78,152 @@ extension UIView {
         }
     }
     
-    func setProps(props: PropDict) {
-        var filteredProps = props.keys.filter { contains(ALLOWED_VIEW_PROPS, $0) }.map { (key: $0, value: props[$0]) }
+    convenience init(frame: CGRect, children: ClosureReturnsComponents) {
+        self.init(frame: frame)
+        for child in children() {
+            self.addSubview(child)
+        }
+    }
+    
+    convenience init(frame: CGRect, props: PropDict, children: ClosureReturnsComponents) {
+        self.init(frame: frame)
+        for child in children() {
+            self.addSubview(child)
+        }
+        self.setProps(props)
+    }
+    convenience init(frame: CGRect, props: PropDict) {
+        self.init(frame: frame)
+        self.setProps(props)
+    }
+    
+    func setProps(newProps: PropDict) {
+        
+        var props: PropDict = newProps
+        
+        if let backgroundHex: String = props["backgroundColor"] as? String {
+            self.backgroundColor = UIColor(rgba: backgroundHex)
+            props.removeValueForKey("backgroundColor")
+        }
+        
+        
+        var filteredProps = props.keys.filter { contains(UIView.allowedProps, $0) }.map { (key: $0, value: props[$0]) }
         for prop in filteredProps {
             self.setValue(prop.value!, forKey: prop.key as String)
         }
+        
+        if let key: String = props["key"] as? String { self.key = key }
+        
+
     }
 }
 
-class ReactiveStateViewController: UIViewController {
+private var clickKey: UInt8 = 1
 
+extension UIButton {
+    
+    var _onClick: ClosureDispatch? {
+        get {
+            return objc_getAssociatedObject(self, &clickKey) as? ClosureDispatch
+        }
+        set(newValue) {
+            objc_setAssociatedObject(self, &clickKey, newValue, objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN))
+        }
+    }
+    
+    func onClick() {
+        _onClick?.action()
+    }
+    
+    override func setProps(props: PropDict) {
+        super.setProps(props)
+        
+        if let clickClosure: ClosureDispatch = props["onClick"] as? ClosureDispatch {
+            self._onClick = clickClosure
+            self.addTarget(self, action: "onClick", forControlEvents: UIControlEvents.TouchUpInside)
+        }
+        
+        if let title: String = props["title"] as? String {
+            self.setTitle(title, forState: UIControlState.Normal)
+        }
+        
+        
+        if let titleColor: String = props["titleColor"] as? String {
+            self.setTitleColor(UIColor(rgba: titleColor), forState: .Normal)
+        }
+        
+        
+    }
+    
+    
+    
+}
+
+class ReactiveStateViewController: UIViewController {
+    
     var props: PropDict = [:]
-    var state: PropDict = [:] {
+    var state: StateDict = [:] {
         willSet { self.componentWillUpdate(newValue) }
         didSet {
             self.componentDidUpdate(oldValue)
         }
     }
 
-    func getInitialState() -> PropDict { return [:] }
+    func getInitialState() -> StateDict { return [:] }
     func getDefaultProps() -> PropDict { return [:] }
 
-    func componentWillUpdate(newState: PropDict) { }
-    func componentDidUpdate(oldState: PropDict) { }
+    func componentWillUpdate(newState: StateDict) { }
+    func componentDidUpdate(oldState: StateDict) {
+        self.view = self.render()
+        self.view.setProps(self.props)
+    }
     
-    func setState(newState: PropDict) {
-        var oldState: PropDict = self.state
-        for (key, value) in newState {
-            oldState[key] = value
+    func setState(state: StateDict) {
+        // TODO - move this into its own struct with operator overloading
+        var newState: StateDict = self.state
+        for (key, value) in state {
+            newState[key] = value
         }
-        self.state = oldState
+        self.state = newState
+    }
+    
+    func getState<T: Any>(key:String) -> T {
+        // lets just have it fail loudly
+        return self.state[key]! as T
+    }
+    
+    func getState<T: Any>(key: String, or: T) -> T {
+        if let value: T = self.state[key] as? T {
+            return value
+        } else {
+            return or
+        }
     }
     
     func render() -> UIView { return UIView(frame: self.view.bounds) }
     
-    override func loadView() {
-        super.loadView()
+    override init() {
+        super.init(nibName: nil, bundle: nil)
         self.props = self.getDefaultProps()
         self.state = self.getInitialState()
-        
-        self.view.setProps(self.props)
-        
-        self.view.addSubview(self.render())
     }
     
-    func diffAgainstRender() {
-        
+    convenience init(props: PropDict) {
+        self.init()
+        var newProps: PropDict = self.props
+        for (key, value) in props {
+            newProps[key] = value
+        }
+        self.props = newProps
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        super.loadView()
+        self.view = self.render()
+        self.view.setProps(self.props)
     }
 }
-
-
-//// check if subview is available
-//if let availableViews: [UIView] = rootNode.subviews.filter({ (subview: AnyObject) in
-//    return subview.isKindOfClass(NSClassFromString(component.type))
-//}) as? [UIView] {
-//    
-//    var exactView: UIView? = availableViews.filter({ $0.tag == index }).first
-//    
-//    var componentView: UIView
-//    
-//    if exactView == nil {
-//        let typeClass = NSClassFromString(component.type) as? UIView.Type
-//        componentView = typeClass!()
-//        rootNode.addSubview(componentView)
-//    } else {
-//        componentView = exactView!
-//    }
-//    
-//    componentView.tag = index
-//    
-//    var filteredProps = component.props.keys.filter { contains(ALLOWED_VIEW_PROPS, $0) }.map { (key: $0, value: component.props[$0]) }
-//    for prop in filteredProps {
-//        componentView.setValue(prop.value!, forKey: prop.key as String)
-//    }
-//    
-//    // recursivley render
-//    component.fetchObjectModel(componentView).render()
-//    
-//}

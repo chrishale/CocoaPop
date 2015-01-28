@@ -102,9 +102,12 @@
 //func c(type: String, children: ClosureReturnsComponents) -> Component {
 //    return Component(type: type, props: [:], children: children)
 //}
-////var _onClick: (()->Void)?
-////
-////@objc func onClick() {
-////    if _onClick != nil { self._onClick!() }
-////}
+//if let clickClosure: ClosureDispatch = self.props["onClick"] as? ClosureDispatch {
+//////            self._onClick = clickClosure.action
+//////        }
+//////var _onClick: (()->Void)?
+//////
+//////@objc func onClick() {
+//////    if _onClick != nil { self._onClick!() }
+//////}
 //

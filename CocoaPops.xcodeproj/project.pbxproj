@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		836C15391A77D5BE00302F30 /* Dollar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 836C15361A77D58700302F30 /* Dollar.framework */; };
+		836C15491A78833B00302F30 /* Cartography.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 836C15421A78833300302F30 /* Cartography.framework */; };
+		836C154B1A788B0D00302F30 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836C154A1A788B0D00302F30 /* UIColorExtension.swift */; };
 		83AC26641A321D7C00738F04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AC26631A321D7C00738F04 /* AppDelegate.swift */; };
 		83AC26661A321D7C00738F04 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83AC26651A321D7C00738F04 /* ViewController.swift */; };
 		83AC266B1A321D7C00738F04 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83AC266A1A321D7C00738F04 /* Images.xcassets */; };
@@ -17,6 +20,48 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		836C15351A77D58700302F30 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 836C15301A77D58700302F30 /* Dollar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 92E0D03C19467C67002ACC3D;
+			remoteInfo = Dollar;
+		};
+		836C15371A77D58700302F30 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 836C15301A77D58700302F30 /* Dollar.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 92E6686F19F09C6400BB4FB8;
+			remoteInfo = DollarTests;
+		};
+		836C15411A78833300302F30 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 836C153A1A78833300302F30 /* Cartography.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 54C96A11195063CD000CDD27;
+			remoteInfo = "Cartography-iOS";
+		};
+		836C15431A78833300302F30 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 836C153A1A78833300302F30 /* Cartography.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 54C96A1C195063CD000CDD27;
+			remoteInfo = "Cartography-iOS-Tests";
+		};
+		836C15451A78833300302F30 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 836C153A1A78833300302F30 /* Cartography.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 54F6A838195C20C100313D24;
+			remoteInfo = "Cartography-Mac";
+		};
+		836C15471A78833300302F30 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 836C153A1A78833300302F30 /* Cartography.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 54F6A842195C20C200313D24;
+			remoteInfo = "Cartography-Mac-Tests";
+		};
 		83AC26741A321D7C00738F04 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83AC26561A321D7C00738F04 /* Project object */;
@@ -27,6 +72,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		836C15301A77D58700302F30 /* Dollar.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Dollar.xcodeproj; path = "../../../Downloads/Dollar.swift-master/Dollar/Dollar.xcodeproj"; sourceTree = "<group>"; };
+		836C153A1A78833300302F30 /* Cartography.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Cartography.xcodeproj; path = "../../../Downloads/Cartography-master/Cartography.xcodeproj"; sourceTree = "<group>"; };
+		836C154A1A788B0D00302F30 /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		83AC265E1A321D7C00738F04 /* CocoaPops.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CocoaPops.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83AC26621A321D7C00738F04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		83AC26631A321D7C00738F04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -46,6 +94,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				836C15491A78833B00302F30 /* Cartography.framework in Frameworks */,
+				836C15391A77D5BE00302F30 /* Dollar.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +109,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		836C15311A77D58700302F30 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				836C15361A77D58700302F30 /* Dollar.framework */,
+				836C15381A77D58700302F30 /* DollarTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		836C153B1A78833300302F30 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				836C15421A78833300302F30 /* Cartography.framework */,
+				836C15441A78833300302F30 /* Cartography-iOS-Tests.xctest */,
+				836C15461A78833300302F30 /* Cartography.framework */,
+				836C15481A78833300302F30 /* Cartography-Mac-Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		83AC26551A321D7C00738F04 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +165,9 @@
 		83AC26611A321D7C00738F04 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				836C154A1A788B0D00302F30 /* UIColorExtension.swift */,
+				836C153A1A78833300302F30 /* Cartography.xcodeproj */,
+				836C15301A77D58700302F30 /* Dollar.xcodeproj */,
 				83AC26621A321D7C00738F04 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -184,6 +257,16 @@
 			mainGroup = 83AC26551A321D7C00738F04;
 			productRefGroup = 83AC265F1A321D7C00738F04 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 836C153B1A78833300302F30 /* Products */;
+					ProjectRef = 836C153A1A78833300302F30 /* Cartography.xcodeproj */;
+				},
+				{
+					ProductGroup = 836C15311A77D58700302F30 /* Products */;
+					ProjectRef = 836C15301A77D58700302F30 /* Dollar.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				83AC265D1A321D7C00738F04 /* CocoaPops */,
@@ -191,6 +274,51 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		836C15361A77D58700302F30 /* Dollar.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Dollar.framework;
+			remoteRef = 836C15351A77D58700302F30 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		836C15381A77D58700302F30 /* DollarTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DollarTests.xctest;
+			remoteRef = 836C15371A77D58700302F30 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		836C15421A78833300302F30 /* Cartography.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Cartography.framework;
+			remoteRef = 836C15411A78833300302F30 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		836C15441A78833300302F30 /* Cartography-iOS-Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Cartography-iOS-Tests.xctest";
+			remoteRef = 836C15431A78833300302F30 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		836C15461A78833300302F30 /* Cartography.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Cartography.framework;
+			remoteRef = 836C15451A78833300302F30 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		836C15481A78833300302F30 /* Cartography-Mac-Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Cartography-Mac-Tests.xctest";
+			remoteRef = 836C15471A78833300302F30 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		83AC265C1A321D7C00738F04 /* Resources */ = {
@@ -220,6 +348,7 @@
 				83AC26861A321FFD00738F04 /* CocoaPop.swift in Sources */,
 				83F29C871A37437800BC5188 /* AppComponent.swift in Sources */,
 				83AC26641A321D7C00738F04 /* AppDelegate.swift in Sources */,
+				836C154B1A788B0D00302F30 /* UIColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
